@@ -1,3 +1,5 @@
+package Data;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -16,16 +18,16 @@ import java.util.logging.Logger;
  * @author hikigaya
  */
 public class koneksi{
- public static Connection koneksi;
-    public static Connection getKoneksi() { 
+ public static Connection conn;
+    public static Connection connect() { 
 try {
  String url = "jdbc:mysql://localhost:3308/Perpustakaan";
-koneksi = (Connection) DriverManager.getConnection (url, "root","@@##bagas");
+conn = (Connection) DriverManager.getConnection (url, "root","@@##bagas");
 
 
 }catch (SQLException ex) {
         Logger.getLogger(koneksi.class.getName()).log(Level.SEVERE, null, ex);
 }
-        return koneksi;
+        return conn;
     }
 }
