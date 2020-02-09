@@ -5,19 +5,14 @@
  */
 package Data;
 
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import com.toedter.calendar.JCalendar;
 import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+
+
 /**
  *
  * @author hikigaya
@@ -36,11 +31,11 @@ String balik;
      */
     public Data_Peminjaman() {
         initComponents();
-        kalenderpeminjaman.setText("");
-        tanggal();
+       // kalenderpeminjaman.setText("");
+  //      tanggal();
        AutoNumber();
         txtkodepinjam.setEnabled(false);
-        kalenderpeminjaman.setEnabled(false);
+      
     }
     
     
@@ -68,20 +63,20 @@ txtnamapeminjam.setText(namapeminjam);
 } 
 
 
-public void curentdate() {
-        Calendar cal = new GregorianCalendar();
-        int month = cal.get(Calendar.MONTH);
-        int day = cal.get(Calendar.DAY_OF_MONTH);
-        int year = cal.get(Calendar.YEAR);
-        //kalenderpeminjaman.setText(year + "-" + (month + 1) + "-" + day);
-    }
-public void tanggal(){
-Calendar cal = new GregorianCalendar();
-int day = cal.get(Calendar.DAY_OF_MONTH);
-int month =cal.get(Calendar.MONTH);
-int year = cal.get(Calendar.YEAR);
-kalenderpeminjaman.setText(day + "-" + (month + 1) + "-" + year);
-}
+//public void curentdate() {
+  //      Calendar cal = new GregorianCalendar();
+  //      int month = cal.get(Calendar.MONTH);
+  //      int day = cal.get(Calendar.DAY_OF_MONTH);
+ //       int year = cal.get(Calendar.YEAR);
+  //      //kalenderpeminjaman.setText(year + "-" + (month + 1) + "-" + day);
+  //  }//
+//public void tanggal(){
+//Calendar cal = new GregorianCalendar();
+//int day = cal.get(Calendar.DAY_OF_MONTH);
+//int month =cal.get(Calendar.MONTH);
+//int year = cal.get(Calendar.YEAR);
+//kalenderpeminjaman.setText(day + "-" + (month + 1) + "-" + year);
+//}//
 
    private void itung() {
         String a = txtstok.getText();
@@ -103,7 +98,7 @@ kalenderpeminjaman.setText(day + "-" + (month + 1) + "-" + year);
         try {
 
              Connection conn = koneksi.connect();
-      Statement stat = conn.createStatement();
+              Statement stat = conn.createStatement();
             String query_bukaTabel = "select right(kode_peminjam,4) as no_urut from peminjaman";
            ResultSet line_result = stat.executeQuery(query_bukaTabel);
             if (line_result.first() == false) {
@@ -148,13 +143,13 @@ kalenderpeminjaman.setText(day + "-" + (month + 1) + "-" + year);
         caridatabuku = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         txtjumlahdipinjam = new javax.swing.JTextField();
-        kalenderpeminjaman = new javax.swing.JTextField();
         txtstok = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tabeldata = new javax.swing.JTable();
         boxstatus = new javax.swing.JComboBox<>();
         tes = new javax.swing.JButton();
+        kalenderpeminjaman = new com.toedter.calendar.JDateChooser();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(1270, 700));
@@ -209,7 +204,6 @@ kalenderpeminjaman.setText(day + "-" + (month + 1) + "-" + year);
             }
         });
         getContentPane().add(txtjumlahdipinjam, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 330, 80, 33));
-        getContentPane().add(kalenderpeminjaman, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 390, 250, 33));
         getContentPane().add(txtstok, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 330, 90, 33));
 
         jLabel9.setText("Stok");
@@ -241,6 +235,13 @@ kalenderpeminjaman.setText(day + "-" + (month + 1) + "-" + year);
         });
         getContentPane().add(tes, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 560, -1, -1));
 
+        kalenderpeminjaman.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                kalenderpeminjamanPropertyChange(evt);
+            }
+        });
+        getContentPane().add(kalenderpeminjaman, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 390, 250, 40));
+
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
@@ -262,11 +263,11 @@ kalenderpeminjaman.setText(day + "-" + (month + 1) + "-" + year);
     }//GEN-LAST:event_caripengunjungActionPerformed
 
     private void txtjumlahdipinjamKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtjumlahdipinjamKeyReleased
-    itung();        // TODO add your handling code here:
+//    itung();        // TODO add your handling code here:
     }//GEN-LAST:event_txtjumlahdipinjamKeyReleased
 
     private void tesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tesActionPerformed
- if(kalenderpeminjaman.getText().equals("")&&kalenderpengembalian.getDate().equals("")){
+ if(kalenderpeminjaman.getDate().equals("")&&kalenderpengembalian.getDate().equals("")){
    JOptionPane.showMessageDialog(null,"Tidak Boleh Ada yang kosong");  
  }
  else{
@@ -320,7 +321,13 @@ kalenderpeminjaman.setText(day + "-" + (month + 1) + "-" + year);
        aidi = "P0001"; 
     }
     try {
-         
+        
+          String tampilan ="dd-MM-yyyy";
+        
+            SimpleDateFormat fm = new SimpleDateFormat(tampilan);
+            String tanggal1= String.valueOf(fm.format(kalenderpengembalian.getDate()));
+            
+            
      int denda=0;
             String query1 = "INSERT INTO peminjaman VALUES "
                     + "('" + aidi+"','"
@@ -330,8 +337,8 @@ kalenderpeminjaman.setText(day + "-" + (month + 1) + "-" + year);
                     + "','" + txtjumlahdipinjam.getText()  
             
                     + "','" + pinjam
-                    + "','" + balik
-                   
+                    + "','" + tanggal1
+                   +  "','" + denda
                     + "','" + boxstatus.getSelectedItem().toString()+ "')";
             java.sql.Connection kon1 = (Connection) koneksi.connect();
             java.sql.PreparedStatement mts = kon1.prepareStatement(query1);
@@ -389,6 +396,13 @@ dispose();
       }          // TODO add your handling code here:
     }//GEN-LAST:event_tesActionPerformed
 
+    private void kalenderpeminjamanPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_kalenderpeminjamanPropertyChange
+if (kalenderpeminjaman.getDate()!=null){
+            SimpleDateFormat Format=new SimpleDateFormat("dd-MM-yyyy");
+            pinjam = Format.format(kalenderpeminjaman.getDate());
+            }        // TODO add your handling code here:
+    }//GEN-LAST:event_kalenderpeminjamanPropertyChange
+
     /**
      * @param args the command line arguments
      */
@@ -437,7 +451,7 @@ dispose();
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField kalenderpeminjaman;
+    private com.toedter.calendar.JDateChooser kalenderpeminjaman;
     private com.toedter.calendar.JDateChooser kalenderpengembalian;
     private javax.swing.JTable tabeldata;
     private javax.swing.JButton tes;
