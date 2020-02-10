@@ -219,7 +219,7 @@ String stk = (String) txtstok.getText();
 catch(Exception b){
     JOptionPane.showMessageDialog(null,b.getMessage());
 }
-     new databuku().setVisible(true);
+     new tabelbuku().setVisible(true);
 dispose();
      }        // TODO add your handling code here:
     }//GEN-LAST:event_submitActionPerformed
