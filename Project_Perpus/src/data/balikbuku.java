@@ -86,6 +86,7 @@ private void tampil(){
             
         }
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -479,7 +480,7 @@ private void tampil(){
             pst.execute();
             JOptionPane.showMessageDialog(null, "Berhasil");
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Perubahan Data Gagal"+e.getMessage());
+            JOptionPane.showMessageDialog(null, "Perubahan data Gagal"+e.getMessage());
         }
         try{
 
